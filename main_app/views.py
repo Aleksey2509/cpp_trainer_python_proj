@@ -1,11 +1,42 @@
 import random
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .forms import CppExampleForm
-from .models import CppExample
+from .models import CppExample, QuizAttempt
 
 
 def home(request):
     return render(request, "home.html")
+
+
+def register_view(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("home")
+    else:
+        form = UserCreationForm()
+    return render(request, "register.html", {"form": form})
+
+
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("home")
+    else:
+        form = AuthenticationForm()
+    return render(request, "login.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
 
 
 def add_cpp_example(request):
@@ -42,6 +73,7 @@ def cpp_quiz(request):
         feedback = ""
         explanation = cpp_example.explanation
 
+        user_correct = False
         if selected_status == correct_status:
             if correct_status.startswith("the program is guaranteed to output"):
                 # Extract the correct output
@@ -52,6 +84,7 @@ def cpp_quiz(request):
                 )
                 if output_guess == expected_output:
                     feedback = "Correct! Your output is right."
+                    user_correct = True
                 else:
                     feedback = f"Partially correct: right status, but the output was expected to be: '{expected_output}'"
             else:
@@ -59,6 +92,12 @@ def cpp_quiz(request):
                 user_correct = True
         else:
             feedback = f"Incorrect. The correct answer is: '{correct_status}'"
+        if request.user.is_authenticated:
+            QuizAttempt.objects.create(
+                user=request.user,
+                cpp_example=cpp_example,
+                is_correct=user_correct,
+            )
 
         return render(
             request,

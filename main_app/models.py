@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class CppExample(models.Model):
@@ -8,3 +9,10 @@ class CppExample(models.Model):
 
     def __str__(self):
         return f"Example #{self.id}"
+
+
+class QuizAttempt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cpp_example = models.ForeignKey(CppExample, on_delete=models.CASCADE)
+    is_correct = models.BooleanField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
