@@ -1,6 +1,7 @@
 from django import forms
 from .models import CppExample
 
+
 class CppExampleForm(forms.ModelForm):
     class Meta:
         model = CppExample
