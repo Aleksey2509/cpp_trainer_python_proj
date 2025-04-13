@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}C++ Educational Site{% endblock %}</title>
+    <style>
+        html, body { font-family: Arial, sans-serif; background-color: #f5f7fa; color: #333; margin: 0; padding: 0; height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        header, footer { background-color: #1e90ff; color: white; padding: 1em; text-align: center; }
+        nav { background-color: #e3f2fd; padding: 1em; text-align: center; }
+        nav a { margin: 0 15px; text-decoration: none; color: #1e90ff; font-weight: bold; }
+        nav a:hover { text-decoration: underline; }
+        main { flex-shrink: 0; padding: 2em; max-width: 800px; margin: auto; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        .footer-spacer {
+            flex-grow: 1; /* This will make the space between content and footer fill with the background color */
+        }
+        .home-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>C++ Educational Site</h1>
+        <p>Learn C++ the fun way!</p>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/cpp-quiz/">C++ Quiz</a>
+        <a href="/cpp-explanations/">C++ examples with explanations</a>
+        <a href="/add-cpp-example/">Add C++ example</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2025 C++ Educational Site</p>
+    </footer>
+</body>
+</html>

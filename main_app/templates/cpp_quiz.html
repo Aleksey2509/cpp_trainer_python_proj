@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}C++ Quiz{% endblock %}
+
+{% block content %}
+    <h2>C++ Quiz</h2>
+
+    {% if feedback %}
+        <div style="margin-bottom: 1em;">
+            <strong>Original Program:</strong>
+            <pre style="background-color: #f4f4f4; padding: 1em; border-radius: 5px;">{{ cpp_example.code }}</pre>
+
+            <strong>Feedback:</strong> {{ feedback }}<br>
+            <strong>Explanation:</strong> {{ explanation }}
+        </div>
+        <form method="get">
+            <button type="submit">Next Question</button>
+        </form>
+    {% else %}
+        {% if cpp_example %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="example_id" value="{{ cpp_example.id }}">
+                <pre style="background-color: #f4f4f4; padding: 1em; border-radius: 5px;">{{ cpp_example.code }}</pre>
+
+                <p><strong>What will happen when this program is run?</strong></p>
+
+                <label><input type="radio" name="status" value="does not compile" required> Does not compile</label><br>
+                <label><input type="radio" name="status" value="undefined behavior"> Undefined behavior</label><br>
+                <label><input type="radio" name="status" value="unspecified behavior"> Unspecified behavior</label><br>
+                <label>
+                    <input type="radio" name="status" value="the program is guaranteed to output"> The program is guaranteed to output:
+                    <input type="text" name="output_guess" id="output_guess" style="display:none; margin-left: 10px;" placeholder="Your expected output">
+                </label><br><br>
+
+                <button type="submit">Submit</button>
+            </form>
+
+            <script>
+                const radios = document.getElementsByName('status');
+                const outputInput = document.getElementById('output_guess');
+
+                radios.forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        if (radio.value === "the program is guaranteed to output") {
+                            outputInput.style.display = 'inline-block';
+                        } else {
+                            outputInput.style.display = 'none';
+                            outputInput.value = '';
+                        }
+                    });
+                });
+            </script>
+        {% else %}
+            <p>No examples yet.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

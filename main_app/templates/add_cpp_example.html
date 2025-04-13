@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Add C++ Example{% endblock %}
+
+{% block content %}
+<h2>Add a C++ Example</h2>
+<form method="post">
+    {% csrf_token %}
+
+    <label for="code">C++ Program:</label><br>
+    <textarea name="code" id="code" rows="10" cols="80" required></textarea><br><br>
+
+    <label for="status">Program Status:</label><br>
+    <select name="status" id="status" required onchange="toggleOutputField()">
+        <option value="">--Select Status--</option>
+        <option value="does not compile">Does not compile</option>
+        <option value="undefined behavior">Undefined behavior</option>
+        <option value="unspecified behavior">Unspecified behavior</option>
+        <option value="the program is guaranteed to output">The program is guaranteed to output:</option>
+    </select><br><br>
+
+    <div id="output-div" style="display: none;">
+        <label for="output">Expected Output:</label><br>
+        <input type="text" name="output" id="output"><br><br>
+    </div>
+
+    <label for="explanation">Explanation:</label><br>
+    <textarea name="explanation" id="explanation" rows="5" cols="80" required></textarea><br><br>
+
+    <button type="submit">Add Example</button>
+</form>
+
+<script>
+    function toggleOutputField() {
+        const status = document.getElementById("status").value;
+        const outputDiv = document.getElementById("output-div");
+        if (status === "the program is guaranteed to output") {
+            outputDiv.style.display = "block";
+        } else {
+            outputDiv.style.display = "none";
+            document.getElementById("output").value = "";
+        }
+    }
+</script>
+{% endblock %}
