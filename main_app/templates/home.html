@@ -2,7 +2,18 @@
 {% block title %}Home | Educational Site{% endblock %}
 {% block content %}
 <div class="home-container">
-    <h2>Welcome to the Educational Site</h2>
+    {% if user.is_authenticated %}
+        <h2>Welcome to the Educational Site, {{ user.username }}</h2>
+    {% else %}
+        <h2>Welcome to the Educational Site</h2>
+    {% endif %}
     <p>Choose an activity from the menu above to get started.</p>
+
+    {% if not user.is_authenticated %}
+        <div class="auth-buttons">
+            <a href="{% url 'login' %}" class="btn">Login</a>
+            <a href="{% url 'register' %}" class="btn">Register</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

@@ -28,6 +28,30 @@
         .no-examples-msg {
             text-align: center;
         }
+        .auth-buttons {
+            justify-content: center;
+            margin-top: 2em;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75em 1.5em;
+            background-color: #1e90ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #006fd6;
+        }
+
+        .auth-buttons .btn:hover {
+            background-color: #006fd6;
+        }
     </style>
 </head>
 <body>
@@ -40,6 +64,10 @@
         <a href="/cpp-quiz/">C++ Quiz</a>
         <a href="/cpp-explanations/">C++ examples with explanations</a>
         <a href="/add-cpp-example/">Add C++ example</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'my_score' %}">My Score</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% endif %}
     </nav>
     <main>
         {% block content %}{% endblock %}
