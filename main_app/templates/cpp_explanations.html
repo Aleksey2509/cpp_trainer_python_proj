@@ -5,7 +5,7 @@
 {% for example in examples %}
     <div style="margin-bottom: 2em; background: #eef; padding: 1em; border-radius: 5px;">
         <pre><code>{{ example.code }}</code></pre>
-        <p><strong>Status:</strong> {{ example.status_display }}</p>
+        <p><strong>Status:</strong> {{ example.status }}</p>
         {% if example.status == "guaranteed_output" %}
             <p><strong>Expected Output:</strong> {{ example.output }}</p>
         {% endif %}
