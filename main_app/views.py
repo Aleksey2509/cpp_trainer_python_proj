@@ -2,6 +2,7 @@ import random
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from .forms import CppExampleForm
 from .models import CppExample, QuizAttempt
 
@@ -114,3 +115,11 @@ def cpp_quiz(request):
             return render(request, "cpp_quiz.html", {"cpp_example": cpp_example})
         except IndexError:
             return render(request, "cpp_quiz.html", {"cpp_example": {}})
+
+
+@login_required
+def my_score(request):
+    attempts = QuizAttempt.objects.filter(user=request.user)
+    correct = attempts.filter(is_correct=True).count()
+    total = attempts.count()
+    return render(request, "my_score.html", {"correct": correct, "total": total})
