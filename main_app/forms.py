@@ -10,19 +10,19 @@ class CppExampleForm(forms.ModelForm):
             "code": forms.Textarea(
                 attrs={
                     "rows": 6,
-                    "style": "width: 100%; padding: 8px",
+                    "style": "width: 100%; padding: 8px; resize: vertical",
                 }
             ),
             "status": forms.TextInput(
                 attrs={
                     "placeholder": "e.g. undefined behavior",
-                    "style": "width: 100%; padding: 8px",
+                    "style": "width: 100%; padding: 8px; resize: vertical",
                 }
             ),
             "explanation": forms.Textarea(
                 attrs={
                     "rows": 4,
-                    "style": "width: 100%; padding: 8px",
+                    "style": "width: 100%; padding: 8px; resize: vertical",
                 }
             ),
         }
