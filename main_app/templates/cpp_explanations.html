@@ -12,6 +12,8 @@
         <p><strong>Explanation:</strong> {{ example.explanation }}</p>
     </div>
 {% empty %}
+<div class="no-examples-msg">
     <p>No examples yet.</p>
+</div>
 {% endfor %}
 {% endblock %}
