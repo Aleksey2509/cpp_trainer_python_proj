@@ -14,7 +14,7 @@
             <strong>Explanation:</strong> {{ explanation }}
         </div>
         <form method="get">
-            <button type="submit">Next Question</button>
+            <button type="submit", class="btn">Next Question</button>
         </form>
     {% else %}
         {% if cpp_example %}
@@ -33,7 +33,7 @@
                     <input type="text" name="output_guess" id="output_guess" style="display:none; margin-left: 10px;" placeholder="Your expected output">
                 </label><br><br>
 
-                <button type="submit">Submit</button>
+                <button type="submit", class="btn">Submit</button>
             </form>
 
             <script>
