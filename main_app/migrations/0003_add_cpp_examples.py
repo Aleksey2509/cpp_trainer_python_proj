@@ -11,20 +11,20 @@ def add_cpp_examples(apps, schema_editor):
     examples = [
         {
             "code": "#include <iostream>\nint main() {\n    int x = 5 / 0;\n"\
-                    "std::cout << x << std::endl;\n    return 0;\n}",
+                    "    std::cout << x << std::endl;\n    return 0;\n}",
             "status": "undefined behavior",
             "explanation": "Division by zero for integers is undefined behavior"\
-                           "and may cause a crash or garbage output.",
+                           " and may cause a crash or garbage output.",
         },
         {
             "code": "#include <iostream>\nint main() {\n    int x;\n"\
-                    "std::cout << x << std::endl;\n    return 0;\n}",
+                    "    std::cout << x << std::endl;\n    return 0;\n}",
             "status": "undefined behavior",
             "explanation": "Reading an uninitialized local variable leads to undefined behavior.",
         },
         {
-            "code": '#include <iostream>\nint main() {\n    std::cout << "\
-                    ""Hello, world!" << std::endl;\n    return 0;\n}',
+            "code": "#include <iostream>\nint main() {\n    std::cout << "\
+                    "\"Hello, world!\" << std::endl;\n    return 0;\n}",
             "status": "the program is guaranteed to output Hello, world!",
             "explanation": "This is a valid program that prints and exits normally.",
         },
@@ -52,7 +52,7 @@ def add_cpp_examples(apps, schema_editor):
                     "(x << 32) << std::endl;\n    return 0;\n}",
             "status": "undefined behavior",
             "explanation": "Shifting by >= bit width of type (like 32 on int) is undefined"\
-                           "behavior.",
+                           " behavior.",
         },
         {
             "code": "int main() {\n    int x = 10;\n    int y = x / 3;\n    return y;\n}",
