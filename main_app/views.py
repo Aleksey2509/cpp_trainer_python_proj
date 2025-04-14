@@ -1,17 +1,20 @@
+"""Views for pages"""
+
 import random
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import CppExampleForm
 from .models import CppExample, QuizAttempt
 
 
 def home(request):
+    """View for home page"""
     return render(request, "home.html")
 
 
 def register_view(request):
+    """View for register page"""
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -24,6 +27,7 @@ def register_view(request):
 
 
 def login_view(request):
+    """View for login page"""
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -36,11 +40,13 @@ def login_view(request):
 
 
 def logout_view(request):
+    """View for logout page, just redirects to login page"""
     logout(request)
     return redirect("login")
 
 
 def add_cpp_example(request):
+    """View for add cpp example page"""
     if request.method == "POST":
         code = request.POST.get("code")
         status = request.POST.get("status")
@@ -58,12 +64,13 @@ def add_cpp_example(request):
 
 
 def cpp_explanations(request):
+    """View for add cpp examples explanations page"""
     examples = CppExample.objects.all()
     return render(request, "cpp_explanations.html", {"examples": examples})
 
 
 def cpp_quiz(request):
-    context = {}
+    """View for add cpp quiz page"""
     if request.method == "POST":
         selected_status = request.POST.get("status")
         output_guess = request.POST.get("output_guess", "").strip()
@@ -87,7 +94,10 @@ def cpp_quiz(request):
                     feedback = "Correct! Your output is right."
                     user_correct = True
                 else:
-                    feedback = f"Partially correct: right status, but the output was expected to be: '{expected_output}'"
+                    feedback = (
+                        f"Partially correct: right status, but the output was expected"
+                        f"to be: '{expected_output}'"
+                    )
             else:
                 feedback = "Correct!"
                 user_correct = True
@@ -109,16 +119,17 @@ def cpp_quiz(request):
                 "explanation": explanation,
             },
         )
-    else:
-        try:
-            cpp_example = random.choice(CppExample.objects.all())
-            return render(request, "cpp_quiz.html", {"cpp_example": cpp_example})
-        except IndexError:
-            return render(request, "cpp_quiz.html", {"cpp_example": {}})
+
+    try:
+        cpp_example = random.choice(CppExample.objects.all())
+        return render(request, "cpp_quiz.html", {"cpp_example": cpp_example})
+    except IndexError:
+        return render(request, "cpp_quiz.html", {"cpp_example": {}})
 
 
 @login_required
 def my_score(request):
+    """View for score page"""
     attempts = QuizAttempt.objects.filter(user=request.user)
     correct = attempts.filter(is_correct=True).count()
     total = attempts.count()
